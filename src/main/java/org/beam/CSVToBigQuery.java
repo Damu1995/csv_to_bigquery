@@ -6,6 +6,7 @@ import com.google.api.services.bigquery.model.TableRow;
 import com.google.api.services.bigquery.model.TableSchema;
 import org.apache.beam.runners.dataflow.DataflowRunner;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
+import org.apache.beam.runners.direct.DirectRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
@@ -62,19 +63,18 @@ public class CSVToBigQuery {
   public static void main(String[] args) {
     MyOption options = PipelineOptionsFactory.as(MyOption.class);
     // need to modify these
-    options.setProject("qwiklabs-gcp-04-c26d57998988");
+    options.setProject("sales-products-phones-prj-02");
     options.setRunner(DataflowRunner.class);
     options.setJobName("CSV-TO-BigQuery");
     options.setRegion("us-central-1");
-    options.setStagingLocation("gs://damu1-test/stagging/");
-    options.setTempLocation("gs://damu1-test//tmp/");
+    options.setTempLocation("gs://ap1e234324/tmp");
     Pipeline pipeline = Pipeline.create(options);
 
-    String sourceFilePath = "gs://damu1-test/data.csv";
+    String sourceFilePath = "gs://ap1e234324/data.csv";
     TableReference tableRef = new TableReference();
     // Replace this with your own GCP project id
-    tableRef.setProjectId("qwiklabs-gcp-04-c26d57998988");
-    tableRef.setDatasetId("damu1");
+    tableRef.setProjectId("sales-products-phones-prj-02");
+    tableRef.setDatasetId("ds1");
     tableRef.setTableId("test1");
 
     pipeline.apply("Read CSV File", TextIO.read().from(sourceFilePath))
